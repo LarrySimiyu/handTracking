@@ -57,6 +57,18 @@ function App() {
 
   runHandPose();
 
+  // TODO: 
+    //TIMER BUTTON - ENTER STUDY LENGTH
+      // START STOP
+      // Random Amount of Motivation Tips
+    
+    // Hand Detection Timer - Triggered By Hand - Seconds to Minutes
+      // Warning Time (user input)
+      // Play warning audio
+      
+
+    
+
   return (
     <div className="App">
       <h1>WOW THIS IS TOXIC</h1>
