@@ -64,61 +64,8 @@ function App() {
   // Warning Time (user input)
   // Play warning audio
 
-  let isClockRunning = false;
+ 
 
-  let workSessionDuration = 1500;
-  let currentTimeLeftInSession = 1500;
-  let breakSessionDuration = 300;
-  let pomodoroTimer = document.querySelector('#pomodoroTimer');
-
-  const startTimer = () => {
-    toggleClock();
-  };
-
-  const pauseTimer = () => {
-    toggleClock();
-  };
-
-  const stopTimer = () => {
-    toggleClock(true);
-  };
-
-  const toggleClock = (reset) => {
-    if (reset) {
-      //STOP THE TIMER
-    } else if (isClockRunning === true) {
-      // PAUSE THE Timer
-      // clearInterval(clockTimer);
-      isClockRunning = false;
-    } else {
-      //START THE Timer
-      isClockRunning = true;
-
-      const clockTimer = setInterval(() => {
-        // decrease time left / increase time spent
-        currentTimeLeftInSession--;
-        displayCurrentTimeLeftInSession();
-      }, 1000);
-    }
-  };
-  const displayCurrentTimeLeftInSession = () => {
-    const secondsLeft = currentTimeLeftInSession;
-    let result = ''
-    const seconds = secondsLeft % 60;
-    const minutes = parseInt(secondsLeft / 60) % 60;
-    let hours = parseInt(secondsLeft / 3600)
-    // add leading zeroes if its less than 10
-
-    function addLeadingZeroes(time) {
-      return time < 10 ? `0${time}` : time
-    }
-    if (hours > 0) result += `{hours}:`
-    result += `${addLeadingZeroes(minutes)}:{addLeadingZeroes(seconds)}`
-    pomodoroTimer.innerText = result.toString();
-
-  };
-
-  let timer = "poop";
   return (
     <div className="App">
       <h1>WOW THIS IS TOXIC</h1>
@@ -153,12 +100,18 @@ function App() {
           }}
         />
       </header>
-          <div className="pomodoroTimer"> <h1>{timer}</h1></div>
-      
+    
 
-      <button onClick={startTimer}>Start</button>
-      <button onClick={pauseTimer}>Pause</button>
-      <button onClick={stopTimer}>Stop</button>
+      <div id = "pomodoro-container">
+        <div id = "pomodoro-clock">
+          <div id = "pomodoro-timer"></div>
+          <div id = "pomodoro-clock-actions">
+            <button id = "pomodoro-start">Start</button>
+            <button id = "pomodoro-pause">Pause</button>
+            <button  id = "pomodoro-stop">Stop</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
