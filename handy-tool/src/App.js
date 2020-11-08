@@ -6,6 +6,8 @@ import * as tf from "@tensorflow/tfjs";
 import * as handpose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam";
 import { drawHand } from "./utilities";
+import Timer from "./Timer";
+import Sound from "./Sound";
 
 function App() {
   const webcamRef = useRef(null);
@@ -64,8 +66,6 @@ function App() {
   // Warning Time (user input)
   // Play warning audio
 
- 
-
   return (
     <div className="App">
       <h1>WOW THIS IS TOXIC</h1>
@@ -100,17 +100,11 @@ function App() {
           }}
         />
       </header>
-    
 
-      <div id = "pomodoro-container">
-        <div id = "pomodoro-clock">
-          <div id = "pomodoro-timer"></div>
-          <div id = "pomodoro-clock-actions">
-            <button id = "pomodoro-start">Start</button>
-            <button id = "pomodoro-pause">Pause</button>
-            <button  id = "pomodoro-stop">Stop</button>
-          </div>
-        </div>
+      <div className="main">
+        <h1>Pomodo Clock</h1>
+        <Timer />
+        <Sound />
       </div>
     </div>
   );
