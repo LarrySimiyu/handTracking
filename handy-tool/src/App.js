@@ -1,38 +1,44 @@
 import "./App.css";
 
-import React, { useRef } from "react";
+import React, { useRef, Component } from "react";
 
 import * as tf from "@tensorflow/tfjs";
 import * as handpose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam";
 import { drawHand } from "./utilities";
+
 import Timer from "./Timer";
 import Sound from "./Sound";
+import TimerControllers from "./TimerController";
 
-class App extends Component {
+export default class App extends Component {
   constructor() {
     super();
     this.state = {
       cycle: "Session",
       workTime: 25,
       breakTime: 5,
-      sound: "on"
-    }
+      sound: "on",
+    };
   }
 
+  setSound = (sound) => {
+    this.setState({ 
+      sound: sound 
+    });
   }
-  render() { 
-    return ( 
-      <div>
 
+  render() {
+    return (
+      <div className="main">
+        <h1>POMODORO CLOCK</h1>
+        <Timer />
+        <TimerControllers />
+        <Sound setSound={this.setSound} sound={this.state.sound} />
       </div>
-     );
+    );
   }
-
- 
-export default App;
-
-
+}
 
 // function App() {
 //   const webcamRef = useRef(null);
