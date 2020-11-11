@@ -22,10 +22,35 @@ export default class App extends Component {
     };
   }
 
+
   setSound = (sound) => {
-    this.setState({ 
-      sound: sound 
-    });
+    this.setState({
+      sound: sound
+    })
+  }
+
+  incrementTime = () => {
+    this.setState({
+      workTime: this.state.workTime + 1
+    })
+  }
+
+  decrementTime = () => {
+    this.setState({
+      workTime: this.state.workTime - 1
+    })
+  }
+
+  incrementBreakTime = () => {
+    this.setState({
+      breakTime: this.state.breakTime + 1
+    })
+  }
+
+  decrementTime = () => {
+    this.setState({
+      breaktime: this.state.breakTime - 1
+    })
   }
 
   render() {
@@ -33,7 +58,14 @@ export default class App extends Component {
       <div className="main">
         <h1>POMODORO CLOCK</h1>
         <Timer />
-        <TimerControllers />
+        <TimerControllers 
+          workTime={this.state.workTime}
+          breakTime={this.state.breakTime}
+          incrementTime={this.state.incrementTime}
+          decrementTime={this.state.decrementTime}
+          incrementBreakTime={this.state.incrementBreakTime}
+          decrementBreakTime={this.state.decrementBreakTime}
+        />
         <Sound setSound={this.setSound} sound={this.state.sound} />
       </div>
     );
