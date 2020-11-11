@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 
 class Sound extends Component {
-    state = {  }
+
+    toggleSound = () => {
+        this.props.sound === "on" ? 
+        this.props.setSound("off") : 
+        this.props.setSound("on")
+    }
+
+
     render() { 
         return ( 
-            <button>SOUND</button>
+            <button onClick={this.toggleSound}>
+                Sound
+                </button>
          );
     }
 }
