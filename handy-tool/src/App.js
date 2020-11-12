@@ -15,6 +15,9 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
+      timerId: 0,
+      timerRunning: false,
+      currentTime: "25 : 00",
       cycle: "Session",
       workTime: 25,
       breakTime: 5,
@@ -53,11 +56,28 @@ export default class App extends Component {
     })
   }
 
+  setCurrentTime = () => {
+    this.setState({
+      currentTime: this.state.currentTime
+    })
+  }
+
+  setTimerRunning = (timerRunning) => {
+    this.setState({
+      timerRunning: timerRunning
+    })
+  }
+
   render() {
     return (
       <div className="main">
         <h1>POMODORO CLOCK</h1>
-        <Timer />
+
+        <Timer 
+          currentTime ={this.state.currentTime} 
+          cycle={this.props.cycle}
+          />
+
         <TimerControllers 
           workTime={this.state.workTime}
           breakTime={this.state.breakTime}
@@ -66,7 +86,11 @@ export default class App extends Component {
           incrementBreakTime={this.state.incrementBreakTime}
           decrementBreakTime={this.state.decrementBreakTime}
         />
-        <Sound setSound={this.setSound} sound={this.state.sound} />
+
+        <Sound 
+          setSound={this.setSound} 
+          sound={this.state.sound} 
+          />
       </div>
     );
   }
