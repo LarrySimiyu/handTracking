@@ -68,6 +68,14 @@ export default class App extends Component {
     })
   }
 
+
+  startTimer = (duration) => {
+    
+
+  }
+
+
+
   render() {
     return (
       <div className="main">
