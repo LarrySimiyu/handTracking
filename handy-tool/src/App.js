@@ -1,17 +1,60 @@
 import "./App.css";
 
-import React, { useRef, Component } from "react";
+import React, { useRef, useState, Component } from "react";
 
 import * as tf from "@tensorflow/tfjs";
 import * as handpose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam";
 import { drawHand } from "./utilities";
 
-
-
 function App() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+
+  const [timer, setTimer] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const countRef = useRef(null);
+
+  const handleStart = () => {
+    // start button logic here
+    setIsActive(true)
+  setIsPaused(true)
+  countRef.current = setInterval(() => {
+    setTimer((timer) => timer + 1)
+  }, 1000)
+  };
+
+  const handlePause = () => {
+    // Pause button logic here
+    clearInterval(countRef.current)
+  setIsPaused(false)
+  };
+
+  const handleResume = () => {
+    // Resume button logic here
+    setIsPaused(true)
+  countRef.current = setInterval(() => {
+    setTimer((timer) => timer + 1)
+  }, 1000)
+  };
+
+  const handleReset = () => {
+    // Reset button logic here
+    clearInterval(countRef.current)
+  setIsActive(false)
+  setIsPaused(false)
+  setTimer(0)
+  };
+
+  const formatTime = () => {
+    const getSeconds = `0${(timer % 60)}`.slice(-2)
+    const minutes = `${Math.floor(timer / 60)}`
+    const getMinutes = `0${minutes % 60}`.slice(-2)
+    const getHours = `0${Math.floor(timer / 3600)}`.slice(-2)
+
+    return `${getHours} : ${getMinutes} : ${getSeconds}`
+  }
 
   const runHandPose = async () => {
     const net = await handpose.load();
@@ -25,7 +68,6 @@ function App() {
 
   const detect = async (net) => {
     // check if data is Available
-
     if (
       typeof webcamRef.current !== "undefined" &&
       webcamRef.current !== null &&
@@ -47,8 +89,8 @@ function App() {
       // make detections
       // grab neural network then estimate haßnd within the video frame
       const hand = await net.estimateHands(video);
-      if(hand.length < 1){
-        console.log("Nothing To Start")
+      if (hand.length < 1) {
+        console.log("Nothing To Start");
       }
       console.log(hand);
 
@@ -58,9 +100,11 @@ function App() {
     }
   };
 
-  runHandPose();
-// TODO: Check if the length of the hand array < 1. if it is then start the timer 
-// TODO: If the length of the hand is > 1 then stop the timer
+  // TODO: Check if the length of the hand array < 1. if it is then start the timer
+  // TODO: If the length of the hand is > 1 then stop the timer
+  // TODO: Once you get to the set limit of distraction then donate - minimum a dollar
+  // TODO: Timer's only reset once you have reached your study goal
+
   // TODO:
   //TIMER BUTTON - ENTER STUDY LENGTH
   // START STOP
@@ -108,6 +152,19 @@ function App() {
       <div className="main">
         <h1>Pomodo Clock</h1>
       </div>
+      <p>{formatTime()}</p> {/* here we will show timer */}
+
+      <div className='buttons'>
+          {
+            !isActive && !isPaused ?
+              <button onClick={handleStart}>Start</button>
+              : (
+                isPaused ? <button onClick={handlePause}>Pause</button> :
+                  <button onClick={handleResume}>Resume</button>
+              )
+          }
+          <button onClick={handleReset} disabled={!isActive}>Reset</button>
+        </div>
     </div>
   );
 }
