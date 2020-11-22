@@ -47,6 +47,9 @@ function App() {
       // make detections
       // grab neural network then estimate haßnd within the video frame
       const hand = await net.estimateHands(video);
+      if(hand.length < 1){
+        console.log("Nothing To Start")
+      }
       console.log(hand);
 
       // Draw mesh
@@ -56,7 +59,8 @@ function App() {
   };
 
   runHandPose();
-
+// TODO: Check if the length of the hand array < 1. if it is then start the timer 
+// TODO: If the length of the hand is > 1 then stop the timer
   // TODO:
   //TIMER BUTTON - ENTER STUDY LENGTH
   // START STOP
