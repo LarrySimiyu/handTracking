@@ -11,50 +11,10 @@ function App() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
-  const [timer, setTimer] = useState(0);
-  const [isActive, setIsActive] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const countRef = useRef(null);
-
-  const handleStart = () => {
-    // start button logic here
-    setIsActive(true)
-  setIsPaused(true)
-  countRef.current = setInterval(() => {
-    setTimer((timer) => timer + 1)
-  }, 1000)
-  };
-
-  const handlePause = () => {
-    // Pause button logic here
-    clearInterval(countRef.current)
-  setIsPaused(false)
-  };
-
-  const handleResume = () => {
-    // Resume button logic here
-    setIsPaused(true)
-  countRef.current = setInterval(() => {
-    setTimer((timer) => timer + 1)
-  }, 1000)
-  };
-
-  const handleReset = () => {
-    // Reset button logic here
-    clearInterval(countRef.current)
-  setIsActive(false)
-  setIsPaused(false)
-  setTimer(0)
-  };
-
-  const formatTime = () => {
-    const getSeconds = `0${(timer % 60)}`.slice(-2)
-    const minutes = `${Math.floor(timer / 60)}`
-    const getMinutes = `0${minutes % 60}`.slice(-2)
-    const getHours = `0${Math.floor(timer / 3600)}`.slice(-2)
-
-    return `${getHours} : ${getMinutes} : ${getSeconds}`
-  }
+  // const [timer, setTimer] = useState(0);
+  // const [isActive, setIsActive] = useState(false);
+  // const [isPaused, setIsPaused] = useState(false);
+  // const countRef = useRef(null);
 
   const runHandPose = async () => {
     const net = await handpose.load();
@@ -63,8 +23,11 @@ function App() {
     // loop and detect hands
     setInterval(() => {
       detect(net);
-    }, 100);
+    }, 1000);
   };
+
+  runHandPose()
+
 
   const detect = async (net) => {
     // check if data is Available
@@ -87,11 +50,10 @@ function App() {
       canvasRef.current.height = videoHeight;
 
       // make detections
-      // grab neural network then estimate haßnd within the video frame
+      // grab neural network then estimate hand within the video frame
       const hand = await net.estimateHands(video);
-      if (hand.length < 1) {
-        console.log("Nothing To Start");
-      }
+     
+      console.log(hand.length)
       console.log(hand);
 
       // Draw mesh
@@ -99,6 +61,52 @@ function App() {
       drawHand(hand, ctx);
     }
   };
+
+  runHandPose()
+
+
+
+  // const handleStart = () => {
+  //   // start button logic here
+  //   setIsActive(true);
+  //   setIsPaused(true);
+  //   countRef.current = setInterval(() => {
+  //     setTimer((timer) => timer + 1);
+  //   }, 1000);
+  // };
+
+  // const handlePause = () => {
+  //   // Pause button logic here
+  //   clearInterval(countRef.current);
+  //   setIsPaused(false);
+  // };
+
+  // const handleResume = () => {
+  //   // Resume button logic here
+  //   setIsPaused(true);
+  //   countRef.current = setInterval(() => {
+  //     setTimer((timer) => timer + 1);
+  //   }, 1000);
+  // };
+
+  // const handleReset = () => {
+  //   // Reset button logic here
+  //   clearInterval(countRef.current);
+  //   setIsActive(false);
+  //   setIsPaused(false);
+  //   setTimer(0);
+  // };
+
+  // const formatTime = () => {
+  //   const getSeconds = `0${timer % 60}`.slice(-2);
+  //   const minutes = `${Math.floor(timer / 60)}`;
+  //   const getMinutes = `0${minutes % 60}`.slice(-2);
+  //   const getHours = `0${Math.floor(timer / 3600)}`.slice(-2);
+
+  //   return `${getHours} : ${getMinutes} : ${getSeconds}`;
+  // };
+
+
 
   // TODO: Check if the length of the hand array < 1. if it is then start the timer
   // TODO: If the length of the hand is > 1 then stop the timer
@@ -148,23 +156,22 @@ function App() {
           }}
         />
       </header>
-
       <div className="main">
         <h1>Pomodo Clock</h1>
       </div>
-      <p>{formatTime()}</p> {/* here we will show timer */}
-
-      <div className='buttons'>
-          {
-            !isActive && !isPaused ?
-              <button onClick={handleStart}>Start</button>
-              : (
-                isPaused ? <button onClick={handlePause}>Pause</button> :
-                  <button onClick={handleResume}>Resume</button>
-              )
-          }
-          <button onClick={handleReset} disabled={!isActive}>Reset</button>
-        </div>
+      {/* <p>{formatTime()}</p> {/* here we will show timer */}
+      {/* <div className="buttons">
+        {!isActive && !isPaused ? (
+          <button onClick={handleStart}>Start</button>
+        ) : isPaused ? (
+          <button onClick={handlePause}>Pause</button>
+        ) : (
+          <button onClick={handleResume}>Resume</button>
+        )}
+        <button onClick={handleReset} disabled={!isActive}>
+          Reset
+        </button> 
+      </div> */}
     </div>
   );
 }
