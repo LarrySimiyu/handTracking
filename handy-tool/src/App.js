@@ -23,7 +23,7 @@ function App() {
     // loop and detect hands
     setInterval(() => {
       detect(net);
-    }, 1000);
+    }, 100);
   };
 
   runHandPose()
@@ -124,7 +124,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>WOW THIS IS TOXIC</h1>
+      <h1>The Purple Hand Tracker</h1>
       <header className="App-header">
         <Webcam
           ref={webcamRef}
@@ -156,9 +156,7 @@ function App() {
           }}
         />
       </header>
-      <div className="main">
-        <h1>Pomodo Clock</h1>
-      </div>
+      
       {/* <p>{formatTime()}</p> {/* here we will show timer */}
       {/* <div className="buttons">
         {!isActive && !isPaused ? (
