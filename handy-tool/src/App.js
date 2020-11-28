@@ -108,20 +108,6 @@ function App() {
 
 
 
-  // TODO: Check if the length of the hand array < 1. if it is then start the timer
-  // TODO: If the length of the hand is > 1 then stop the timer
-  // TODO: Once you get to the set limit of distraction then donate - minimum a dollar
-  // TODO: Timer's only reset once you have reached your study goal
-
-  // TODO:
-  //TIMER BUTTON - ENTER STUDY LENGTH
-  // START STOP
-  // Random Amount of Motivation Tips
-
-  // Hand Detection Timer - Triggered By Hand - Seconds to Minutes
-  // Warning Time (user input)
-  // Play warning audio
-
   return (
     <div className="App">
       <h1>The Purple Hand Tracker</h1>
