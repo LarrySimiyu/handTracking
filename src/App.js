@@ -8,35 +8,36 @@ import Webcam from "react-webcam";
 import { drawHand } from "./utilities";
 
 function App() {
+  // useRef - USE REFERENCES THAT are in the webpage/DOM
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
-  // const [timer, setTimer] = useState(0);
-  // const [isActive, setIsActive] = useState(false);
-  // const [isPaused, setIsPaused] = useState(false);
-  // const countRef = useRef(null);
 
   const runHandPose = async () => {
+    // wait for handpose to load
     const net = await handpose.load();
     console.log("Handpose model successfully loaded");
 
-    // loop and detect hands
+    // loop used to continiously try and detect a hand within the frame
+
     setInterval(() => {
       detect(net);
     }, 100);
   };
 
-  runHandPose()
 
+  // pass handpose model into detect function
 
   const detect = async (net) => {
-    // check if data is Available
+// check if video feed is being received 
     if (
+      //check that data is not undefined, not null 
+      // and check the video ready state to make sure data is being received 
       typeof webcamRef.current !== "undefined" &&
       webcamRef.current !== null &&
       webcamRef.current.video.readyState === 4
     ) {
-      // Get Video Properties
+      // set video properties 
       const video = webcamRef.current.video;
       const videoWidth = webcamRef.current.video.videoWidth;
       const videoHeight = webcamRef.current.video.videoHeight;
@@ -49,14 +50,17 @@ function App() {
       canvasRef.current.width = videoWidth;
       canvasRef.current.height = videoHeight;
 
-      // make detections
-      // grab neural network then estimate hand within the video frame
+     // make hand detection by passing in the video frame
+      
       const hand = await net.estimateHands(video);
      
       console.log(hand.length)
+      // console log the hand and all of it's properties 
+        
+      // landmark represents a different point in your hand 
       console.log(hand);
 
-      // Draw mesh
+      // grab canvas in 2d
       const ctx = canvasRef.current.getContext("2d");
       drawHand(hand, ctx);
     }
@@ -64,47 +68,6 @@ function App() {
 
   runHandPose()
 
-
-
-  // const handleStart = () => {
-  //   // start button logic here
-  //   setIsActive(true);
-  //   setIsPaused(true);
-  //   countRef.current = setInterval(() => {
-  //     setTimer((timer) => timer + 1);
-  //   }, 1000);
-  // };
-
-  // const handlePause = () => {
-  //   // Pause button logic here
-  //   clearInterval(countRef.current);
-  //   setIsPaused(false);
-  // };
-
-  // const handleResume = () => {
-  //   // Resume button logic here
-  //   setIsPaused(true);
-  //   countRef.current = setInterval(() => {
-  //     setTimer((timer) => timer + 1);
-  //   }, 1000);
-  // };
-
-  // const handleReset = () => {
-  //   // Reset button logic here
-  //   clearInterval(countRef.current);
-  //   setIsActive(false);
-  //   setIsPaused(false);
-  //   setTimer(0);
-  // };
-
-  // const formatTime = () => {
-  //   const getSeconds = `0${timer % 60}`.slice(-2);
-  //   const minutes = `${Math.floor(timer / 60)}`;
-  //   const getMinutes = `0${minutes % 60}`.slice(-2);
-  //   const getHours = `0${Math.floor(timer / 3600)}`.slice(-2);
-
-  //   return `${getHours} : ${getMinutes} : ${getSeconds}`;
-  // };
 
 
 

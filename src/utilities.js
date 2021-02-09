@@ -1,4 +1,5 @@
 const fingerJoints = {
+    // zero representing the base, then immidietly followed by the points on that finger 
     thumb: [0,1,2,3,4],
     indexFinger: [0,5,6,7,8],
     middleFinger: [0,9,10,11,12],
@@ -15,15 +16,16 @@ export const drawHand = (predictions, ctx) => {
             // grab landmarks
             const landmarks = prediction.landmarks
 
-            // loop through landmarks and draw theme_color
+            // loop through all our fingers 
             for(let j = 0; j < Object.keys(fingerJoints).length; j++) {
                 let finger = Object.keys(fingerJoints)[j]
                 //loop through pairs of fingerJoints
                 for(let k=0; k <fingerJoints[finger].length -1; k++) {
+                    // get pairs of joints
                     const firstJointIndex = fingerJoints[finger][k];
                     const secondJointInex = fingerJoints[finger][k + 1];
                 
-                    // draw path
+                    // draw path - HTML canvas functions
                     ctx.beginPath();
                     ctx.moveTo(
                         landmarks[firstJointIndex][0],
@@ -42,6 +44,7 @@ export const drawHand = (predictions, ctx) => {
                 }
             }
 
+            // loop through landmarks and draw them
             for(let i = 0; i < landmarks.length; i++) {
                 //get x point
                 const x = landmarks[i][0]
